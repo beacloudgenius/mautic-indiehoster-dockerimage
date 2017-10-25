@@ -1,6 +1,6 @@
-FROM php:5.6-apache
+FROM php:7.1.10-apache
 
-MAINTAINER nicky.gurbani@gmail.com
+MAINTAINER nilesh@cloudgeni.us
 
 RUN apt-get update && apt-get install -y \
         libc-client-dev \
@@ -24,14 +24,13 @@ RUN docker-php-ext-install \
     mcrypt \
     mcrypt \
     mbstring \
-    mysql  \
     mysqli \
     pdo \
     pdo_mysql \
-    pdo_mysql
-    
+    zip
+
 # Define Mautic version and expected SHA1 signature
-ENV MAUTIC_VERSION=1.2.4 MAUTIC_SHA1=f0f89343f9ce67b6b4cafb44fd7b15f325ed726f
+ENV MAUTIC_VERSION=2.10.1 MAUTIC_SHA1=f952883a3399afa0613b0a86886656f53cd7d4f9
 
 # Download package and extract to web volume
 RUN curl -o mautic.zip -SL https://s3.amazonaws.com/mautic/releases/${MAUTIC_VERSION}.zip \
@@ -47,4 +46,3 @@ VOLUME /var/www/html
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["apache2-foreground"]
-
